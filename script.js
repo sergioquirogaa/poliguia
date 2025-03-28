@@ -193,6 +193,7 @@ function iniciarSlider(idZona, titulo, descripcion) {
         imagenElement.style.opacity = 1;
     }, 500);
 }, 2000);
+}
 
 
 
