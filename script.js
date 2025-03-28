@@ -132,49 +132,67 @@ const imagenes = {
 };
 
 // ESTA PARTE ES PARA EL SLIDER Y PRECARGA DE IMAGENES
-let sliderInterval; 
-// Función para pre-cargar un array de imágenes
-function preloadImages(imageArray) {
-    imageArray.forEach(src => {
-        const img = new Image();
-        img.src = src;
-    });
+let sliderInterval; // Variable global para almacenar el intervalo
+
+// Función para detener el slider
+function detenerSlider() {
+    if (sliderInterval) {
+        clearInterval(sliderInterval); // Detiene el intervalo
+        sliderInterval = null; // Reinicia la variable
+    }
 }
+
 function iniciarSlider(idZona, titulo, descripcion) {
     let imagenElement = document.getElementById("infoImagen");
     let tituloElement = document.getElementById("infoTitulo");
     let textoElement = document.getElementById("infoTexto");
-// Detener cualquier slider en ejecución antes de iniciar uno nuevo
-    detenerSlider();
-    tituloElement.textContent = titulo;
-    textoElement.innerHTML = descripcion; // Permitir etiquetas HTML
-// Pre-cargar imágenes antes de mostrarlas
-    preloadImages(imagenes[idZona]);
-    let index = 0;
-// Mostrar la primera imagen inmediatamente (sin esperar al intervalo)
-    imagenElement.style.opacity = 0; // Fade-out
-    setTimeout(() => {
-        imagenElement.src = imagenes[idZona][index];
-        imagenElement.style.opacity = 1; // Fade-in
-    }, 300);
-// Iniciar el slider, pero saltando la primera imagen que ya mostramos
-    sliderInterval = setInterval(() => {
-        index = (index + 1) % imagenes[idZona].length; // Ahora empieza desde la segunda imagen
-        if (index === 0) index = 1; // Saltar la primera imagen ya mostrada
 
-        imagenElement.style.opacity = 0; // Fade-out
-        setTimeout(() => {
-            imagenElement.src = imagenes[idZona][index];
-            imagenElement.style.opacity = 1; // Fade-in
-        }, 500);
-    }, 2000); // Aca espera 2 seg para mostrar otra imagen
-}
-function detenerSlider() {
-    if (sliderInterval) {
-        clearInterval(sliderInterval);
-        sliderInterval = null;
+    detenerSlider(); // Detener cualquier slider en ejecución antes de iniciar uno nuevo
+
+    tituloElement.textContent = titulo;
+    textoElement.innerHTML = descripcion;
+
+    let imagenesZona = imagenes[idZona]; // Obtener el array de imágenes
+    let totalImagenes = imagenesZona ? imagenesZona.length : 0;
+
+    if (totalImagenes === 0) {
+        console.error("No hay imágenes para esta zona:", idZona);
+        return; // Si no hay imágenes, salir
     }
+
+    function preloadImages(imageArray) {
+        imageArray.forEach((src) => {
+            const img = new Image();
+            img.src = src;
+        });
+    }    
+
+    let index = 0;
+
+    // Mostrar la primera imagen inmediatamente
+    imagenElement.style.opacity = 0;
+    imagenElement.src = imagenesZona[index] + "?t=" + new Date().getTime(); // Forzar actualización
+    setTimeout(() => {
+        imagenElement.style.opacity = 1;
+    }, 300);
+
+    // Si solo hay una imagen, no iniciar el slider
+    if (totalImagenes === 1) return;
+
+    // Iniciar el slider con el resto de las imágenes
+    sliderInterval = setInterval(() => {
+        index = (index + 1) % totalImagenes;
+        console.log("Mostrando imagen:", imagenesZona[index]); // Debugging
+
+        imagenElement.style.opacity = 0;
+        setTimeout(() => {
+            imagenElement.src = imagenesZona[index] + "?t=" + new Date().getTime(); // Forzar actualización
+            imagenElement.style.opacity = 1;
+        }, 500);
+    }, 2000);
 }
+
+
 document.addEventListener("DOMContentLoaded", function () {
     let mapa = document.getElementById("mapaSVG");
     if (mapa) {
