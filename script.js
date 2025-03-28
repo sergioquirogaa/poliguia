@@ -159,7 +159,7 @@ function iniciarSlider(idZona, titulo, descripcion) {
     }, 300);
 // Iniciar el slider, pero saltando la primera imagen que ya mostramos
     sliderInterval = setInterval(() => {
-        index = (index + 1) % imagenes[idZona].length; // Ahora empieza desde la segunda imagen
+        index = (index + 2) % imagenes[idZona].length; // Ahora empieza desde la segunda imagen
 
         imagenElement.style.opacity = 0; // Fade-out
         setTimeout(() => {
