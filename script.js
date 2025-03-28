@@ -152,14 +152,14 @@ function iniciarSlider(idZona, titulo, descripcion) {
     preloadImages(imagenes[idZona]);
     let index = 0;
 // Mostrar la primera imagen inmediatamente (sin esperar al intervalo)
-    imagenElement.style.opacity = 20; // Fade-out
+    imagenElement.style.opacity = 0; // Fade-out
     setTimeout(() => {
         imagenElement.src = imagenes[idZona][index];
         imagenElement.style.opacity = 1; // Fade-in
     }, 300);
 // Iniciar el slider, pero saltando la primera imagen que ya mostramos
     sliderInterval = setInterval(() => {
-        index = (index + 2) % imagenes[idZona].length; // Ahora empieza desde la segunda imagen
+        index = (index + 1) % imagenes[idZona].length; // Ahora empieza desde la segunda imagen
 
         imagenElement.style.opacity = 0; // Fade-out
         setTimeout(() => {
