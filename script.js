@@ -181,16 +181,19 @@ function iniciarSlider(idZona, titulo, descripcion) {
 
     // Iniciar el slider con el resto de las imágenes
     sliderInterval = setInterval(() => {
-        index = (index + 1) % totalImagenes;
-        console.log("Mostrando imagen:", imagenesZona[index]); // Debugging
+    index = (index + 1) % totalImagenes;
+    console.log("Mostrando imagen:", imagenesZona[index]); // Debugging
 
-        imagenElement.style.opacity = 0;
-        setTimeout(() => {
-            imagenElement.src = imagenesZona[index] + "?t=" + new Date().getTime(); // Forzar actualización
-            imagenElement.style.opacity = 1;
-        }, 500);
-    }, 2000);
-}
+    setTimeout(() => {
+        imagenElement.src = imagenesZona[index] + "?t=" + new Date().getTime(); // Cambia la imagen antes de que termine el efecto
+    }, 250); // La imagen cambia a la mitad del fade-out
+
+    imagenElement.style.opacity = 0;
+    setTimeout(() => {
+        imagenElement.style.opacity = 1;
+    }, 500);
+}, 2000);
+
 
 
 document.addEventListener("DOMContentLoaded", function () {
