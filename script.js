@@ -30,8 +30,8 @@ const imagenes = {
         "assets/img/biblioteca-3.jpg"
     ],
     "prefix__Cantina": [
-        "assets/img/cantina-1.jpg",
-        "assets/img/cantina-2.jpg"
+        "assets/img/restaurante-univ-1.jpg",
+        "assets/img/restaurante-univ-2.jpg"
     ],
     "prefix__Aulas": [
         "assets/img/aulas-1.jpg",
